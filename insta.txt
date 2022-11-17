@@ -1,0 +1,36 @@
+static function OnDone(oSession: Session)
+	{    
+		//if ((oSession.responseCode == 200) && 
+		//	oSession.oResponse.headers.ExistsAndContains("Content-Type", "image/jpeg")) 
+		//{ 
+		//	oSession.SaveResponseBody("d:\\aos\\" + oSession.SuggestedFilename);
+		//}
+		
+		if(oSession.url.Contains("/feed/reels_media/?reel_ids=")){
+			// Save Request
+			//oSession.utilDecodeRequest();
+			//oSession.SaveRequest("d:\\aos\\" + oSession.SuggestedFilename + "-request.txt",true);
+			// Save Response  
+			oSession.utilDecodeResponse();
+			//oSession.SaveResponse("d:\\aos\\" + oSession.SuggestedFilename + "-response.txt",true);
+			oSession.SaveResponseBody("C:\\Users\\rssmo\\source\\repos\\httpserver\\httpserver\\bin\\Debug\\save\\" + oSession.SuggestedFilename);
+		}
+		if(oSession.url.Contains("api/v1/feed/user/")){
+			// Save Request
+			//oSession.utilDecodeRequest();
+			//oSession.SaveRequest("d:\\aos\\" + oSession.SuggestedFilename + "-request.txt",true);
+			// Save Response  
+			oSession.utilDecodeResponse();
+			//oSession.SaveResponse("d:\\aos\\" + oSession.SuggestedFilename + "-response.txt",true);
+			oSession.SaveResponseBody("C:\\Users\\rssmo\\source\\repos\\httpserver\\httpserver\\bin\\Debug\\save\\" + oSession.SuggestedFilename);
+		}
+		if(oSession.url.Contains("/api/v1/users/web_profile_info/?username=")){
+			// Save Request
+			//oSession.utilDecodeRequest();
+			//oSession.SaveRequest("d:\\aos\\" + oSession.SuggestedFilename + "-request.txt",true);
+			// Save Response  
+			oSession.utilDecodeResponse();
+			//oSession.SaveResponse("d:\\aos\\" + oSession.SuggestedFilename + "-response.txt",true);
+			oSession.SaveResponseBody("C:\\Users\\rssmo\\source\\repos\\httpserver\\httpserver\\bin\\Debug\\save\\" + oSession.SuggestedFilename);
+		}
+	}
