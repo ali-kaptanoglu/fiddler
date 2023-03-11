@@ -1,0 +1,90 @@
+
+oSession.SaveResponseBody
+
+Be sure to add your code within OnBeforeResponse(oSession: Session) { ... } function
+
+The following code will save the request and response body of any url that contains "procedimentoservice" and a response code that differs from OK (200).
+
+if (oSession.PathAndQuery.ToLower().Contains("procedimentoservice"))
+        {
+            if(oSession.responseCode != 200)
+            {
+                var directory2 = "C:\\log\\NEXT\\";
+                var filename2 = oSession.oRequest.headers['SOAPAction'].ToString().Replace('"','') + "_" + Guid.NewGuid();
+                var path2: String = System.IO.Path.Combine(directory2, filename2);
+
+                oSession.SaveRequestBody(path2 + "_request.txt");
+                oSession.SaveResponseBody(path2 + "_response.txt");
+            }
+        }
+File names will be in the following format:
+
+c:\log\NEXT\CriarEvento_fa15709e-b2a8-402d-a623-e4f01e6e8ae1_request.txt
+c:\log\NEXT\CriarEvento_fa15709e-b2a8-402d-a623-e4f01e6e8ae1_response.txt
+c:\log\NEXT\CriarEvento_ff650cf8-8fe6-47a2-8552-a4d8bce246f3_request.txt
+c:\log\NEXT\CriarEvento_ff650cf8-8fe6-47a2-8552-a4d8bce246f3_response.txt
+
+
+
+mp3 download
+if(oSession.url.Contains("SomeStream.aspx")) {
+	var directory: String = "D:\Files\MP3";
+	var path: String = System.IO.Path.Combine(directory, Guid.NewGuid() + ".mp3");
+
+	oSession.SaveResponseBody(path);
+	var file: TagLib.File = TagLib.File.Create(path);
+
+	if(file.Tag.Title.Length > 0)
+	{
+		var target: String = System.IO.Path.Combine(directory, file.Tag.AlbumArtists + " - " + file.Tag.Title + ".mp3");
+
+		if(!System.IO.File.Exists(target))
+			System.IO.File.Move(path, target);
+		else
+			System.IO.File.Delete(path);
+	}
+}
+
+
+-----------------------------
+
+   static function OnDone(oSession: Session)
+    {
+        if(oSession.url.StartsWith("www.google.com")){
+            // Save Request
+            oSession.utilDecodeRequest();
+            oSession.SaveRequest("c:\\temp\\" + oSession.SuggestedFilename + "-request.txt",true);
+            // Save Response  
+            oSession.utilDecodeResponse();
+            oSession.SaveResponse("c:\\temp\\" + oSession.SuggestedFilename + "-response.txt",true);
+            oSession.SaveResponseBody("c:\\temp\\" + oSession.SuggestedFilename);
+        }
+    }
+
+----------------------------
+
+public static void OnBeforeResponse(Session oSession)
+{
+	if (oSession.PathAndQuery.ToLower().Contains("api/v1"))
+	{
+		if(oSession.responseCode == 200)
+		{
+			var directory2 = "D:\\aos";
+			var filename2 = oSession.oRequest.headers['GET'].ToString().Replace('"','') + "_" + Guid.NewGuid();
+			var path2: String = System.IO.Path.Combine(directory2, filename2);
+	
+			oSession.SaveResponseBody(path2 + "_response.txt");
+	               
+		}
+	}
+}
+
+--------------------------
+
+ var fso;
+                var file;
+                fso = new ActiveXObject("Scripting.FileSystemObject");
+                file = fso.OpenTextFile("E:\\spider_img\\Sessions.dat",8 ,true, true);
+                file.writeLine(jsonString);
+                file.writeLine("\n");
+                file.close();
